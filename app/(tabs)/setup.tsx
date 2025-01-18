@@ -1,8 +1,16 @@
 import { Text, SafeAreaView, StyleSheet, Button, View } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useState } from 'react';
+import { useSetup } from '../contexts/SetupContext';
 
 export default function SetupScreen() {
+
+    // To trigger practice tab button
+    const { setIsSetupComplete } = useSetup();  // Access the setter function from context
+
+    const handleSetupComplete = () => {
+      setIsSetupComplete(true);  // Trigger the setup completion
+    };
 
 	// State for selected values
     const [selectedColor, setSelectedColor] = useState('');
@@ -138,9 +146,17 @@ export default function SetupScreen() {
 			  {isSubmitted && (
 				  <View>
 				  {/* Spacer */}
-				  <Button title="Change Color/Version" onPress={handleChange} />
+                  <Button
+                      title="Change Color/Version"
+                      onPress={() => {
+                        handleChange();
+                        handleSetupComplete();
+                      }}
+                    />
 				  <Text style={styles.title}>Test</Text>
-				  </View>
+                  <Button title="Complete Setup" onPress={handleSetupComplete} />
+                     <Text>Setup Complete: true</Text>
+			   </View>
 			  )}
         </SafeAreaView>
     );

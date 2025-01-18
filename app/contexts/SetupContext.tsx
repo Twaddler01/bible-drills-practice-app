@@ -1,14 +1,41 @@
-import React, { createContext, useState, useContext } from 'react';
+// contexts/SetupContext.tsx
+import React, { createContext, useContext, useState } from 'react';
 
-const SetupContext = createContext(null);
+interface SetupContextType {
+  selectedColor: string;
+  selectedBibleVersion: string;
+  setSelectedColor: (color: string) => void;
+  setSelectedBibleVersion: (version: string) => void;
+  isSetupComplete: boolean;
+  setIsSetupComplete: (completed: boolean) => void;
+}
 
-export const useSetup = () => useContext(SetupContext);
+const SetupContext = createContext<SetupContextType | undefined>(undefined);
 
-export const SetupProvider = ({ children }) => {
+export function useSetup() {
+  const context = useContext(SetupContext);
+  if (!context) {
+    throw new Error('useSetup must be used within a SetupProvider');
+  }
+  return context;
+}
+
+export const SetupProvider: React.FC = ({ children }) => {
+  const [selectedColor, setSelectedColor] = useState('');
+  const [selectedBibleVersion, setSelectedBibleVersion] = useState('');
   const [isSetupComplete, setIsSetupComplete] = useState(false);
 
   return (
-    <SetupContext.Provider value={{ isSetupComplete, setIsSetupComplete }}>
+    <SetupContext.Provider
+      value={{
+        selectedColor,
+        selectedBibleVersion,
+        setSelectedColor,
+        setSelectedBibleVersion,
+        isSetupComplete,
+        setIsSetupComplete,
+      }}
+    >
       {children}
     </SetupContext.Provider>
   );

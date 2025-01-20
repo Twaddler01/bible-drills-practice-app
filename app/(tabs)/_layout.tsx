@@ -10,7 +10,7 @@ export default function TabLayout() {
   // Effect hook to update the href dynamically based on setup completion
  useEffect(() => {
    // Log state changes for debugging
-   console.log("isSetupComplete changed:", isSetupComplete);
+   //console.log("isSetupComplete changed:", isSetupComplete);
  }, [isSetupComplete]);
 
   return (

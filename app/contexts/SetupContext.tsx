@@ -40,3 +40,5 @@ export const SetupProvider: React.FC = ({ children }) => {
     </SetupContext.Provider>
   );
 };
+
+export default SetupProvider;

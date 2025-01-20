@@ -26,13 +26,9 @@ export default function SetupScreen() {
     if (colorInput && versionInput) {
       setSelectedColor(colorInput); // Update context
       setSelectedBibleVersion(versionInput); // Update context
-      setIsSubmitted(true); // Update submission state
+      setIsSubmitted(true); // Update submission state for display and variable assignments
+      setIsSetupComplete(true); // Used to update layout for 'practice' tab
     }
-  };
-
-  // Handle setup completion
-  const handleSetupComplete = () => {
-    setIsSetupComplete(true);
   };
 
   // Determine text color dynamically
@@ -99,9 +95,6 @@ export default function SetupScreen() {
         </View>
       )}
 
-      {isSubmitted && (
-        <Button title="Complete Setup" onPress={handleSetupComplete} />
-      )}
     </SafeAreaView>
   );
 }

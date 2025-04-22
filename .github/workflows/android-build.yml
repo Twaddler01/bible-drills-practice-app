@@ -1,4 +1,4 @@
-name: Build and Sign APK
+name: Build and Release APK
 
 on:
   push:
@@ -35,8 +35,14 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
 
-      - name: Upload release APK
-        uses: actions/upload-artifact@v3
-        with:
-          name: release-apk
-          path: android/app/build/outputs/apk/release/app-release.apk
+      - name: Create GitHub release
+        run: |
+          VERSION_TAG="v1.0.${{ github.run_number }}"
+          VERSION_NAME="Release $VERSION_TAG (${{ steps.date.outputs.date }})"
+          gh release create $VERSION_TAG android/app/build/outputs/flutter-apk/app-release.apk --title "$VERSION_NAME" --notes "This is the release for version $VERSION_TAG"
+
+      - name: Upload APK to GitHub Release
+        run: |
+          VERSION_TAG="v1.0.${{ github.run_number }}"
+          VERSION_NAME="Release $VERSION_TAG (${{ steps.date.outputs.date }})"
+          gh release create $VERSION_TAG android/app/build/outputs/flutter-apk/app-release.apk --title "$VERSION_NAME" --notes "This is the release for version $VERSION_TAG"
